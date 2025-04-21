@@ -1,41 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-model Post {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String    @unique
-  title    String
-  body     String
-  author   User      @relation(fields: [authorId], references: [id])
-  authorId String    @db.ObjectId
-  comments Comment[]
-}
-
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  name    String?
-  address Address?
-  posts   Post[]
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String     @unique
+  password  String
+  company   String?
+  bots      Bot[]
+  ratings   Rating[]
+  createdAt DateTime   @default(now())
 }
 
-model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  comment String
-  post    Post   @relation(fields: [postId], references: [id])
-  postId  String @db.ObjectId
+model Bot {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  botName       String
+  description   String
+  category      String
+  demoVideoLink String
+  qrCodeImage   String
+  botImage      String
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String     @db.ObjectId
+  ratings       Rating[]
+  createdAt     DateTime   @default(now())
 }
 
-// Address is an embedded document
-type Address {
-  street String
-  city   String
-  state  String
-  zip    String
+model Rating {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  value     Int      
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  bot       Bot      @relation(fields: [botId], references: [id])
+  botId     String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  @@unique([userId, botId])
 }

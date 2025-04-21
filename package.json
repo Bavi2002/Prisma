@@ -5,13 +5,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bavi2002/Prisma.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bavi2002/Prisma/issues"
+  },
+  "homepage": "https://github.com/Bavi2002/Prisma#readme",
   "description": "",
   "devDependencies": {
     "@types/node": "^22.14.1",
     "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   },
